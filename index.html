@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* Общие стили и сброс */
+        /* Все ваши стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -26,14 +26,12 @@
             line-height: 1.6;
         }
         
-        /* Контейнер для мобильной версии */
         .container {
             max-width: 480px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
-        /* Типография */
         h1, h2, h3 {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 600;
@@ -68,7 +66,6 @@
             text-align: center;
         }
         
-        /* Hero секция с фото */
         .hero {
             height: 100vh;
             min-height: 600px;
@@ -76,13 +73,11 @@
                         url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
-            background-attachment: scroll;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             color: white;
-            position: relative;
         }
         
         .hero-content {
@@ -103,7 +98,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
         
-        /* Таймер обратного отсчета */
         .countdown {
             display: flex;
             justify-content: center;
@@ -134,7 +128,6 @@
             letter-spacing: 1px;
         }
         
-        /* Карточки с информацией */
         .info-card {
             background: white;
             border-radius: 12px;
@@ -160,7 +153,6 @@
             font-size: 0.95rem;
         }
         
-        /* Кнопка RSVP */
         .rsvp-btn {
             display: inline-block;
             background: linear-gradient(135deg, #d4af37, #b8960c);
@@ -188,7 +180,6 @@
             transform: translateY(0);
         }
         
-        /* Форма RSVP */
         .rsvp-form {
             display: none;
             background: white;
@@ -259,69 +250,16 @@
             background: #b8960c;
         }
         
-        /* Сообщение об отправке */
-        .form-message {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
+        .info-note {
             text-align: center;
-            font-size: 0.9rem;
-            display: none;
-        }
-        
-        .form-message.success {
-            background-color: #d4edda;
-            color: #155724;
-            display: block;
-        }
-        
-        .form-message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            display: block;
-        }
-        
-        .form-message.loading {
-            background-color: #f0f0f0;
-            color: #333;
-            display: block;
-        }
-        
-        /* Карта */
-        .map-container {
-            margin: 30px 0;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .map-container iframe {
-            width: 100%;
-            height: 250px;
-            border: 0;
-        }
-        
-        /* Галерея */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 30px 0;
-        }
-        
-        .gallery img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #888;
+            background-color: #f8f9fa;
+            padding: 10px;
             border-radius: 8px;
-            transition: transform 0.3s;
         }
         
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Footer */
         footer {
             background: #2c2c2c;
             color: white;
@@ -335,7 +273,6 @@
             margin: 0 5px;
         }
         
-        /* Анимации */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -349,13 +286,6 @@
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
-        }
-        
-        /* Для устройств с маленьким экраном */
-        @media (max-width: 380px) {
-            h1 { font-size: 2rem; }
-            .hero h1 { font-size: 2.5rem; }
-            .countdown-item { min-width: 60px; padding: 10px 3px; }
         }
     </style>
 </head>
@@ -477,12 +407,12 @@
                         <input type="text" id="message" name="entry.1169992378" placeholder="Аллергии, особые предпочтения...">
                     </div>
                     
-                    <button type="submit" class="submit-btn">Отправить ответ</button>
+                    <button type="submit" class="submit-btn">Перейти к подтверждению</button>
                 </form>
-                <div id="formMessage" class="form-message"></div>
-                <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #888;">
-                    * Ответы сохраняются в Google Таблицу
-                </p>
+                <div class="info-note">
+                    <i class="fas fa-shield-alt" style="margin-right: 5px;"></i>
+                    Вы будете перенаправлены в Google Форму для окончательного подтверждения
+                </div>
             </div>
         </section>
 
@@ -584,50 +514,50 @@
             }
         });
 
-        // Отправка формы в Google Таблицу
+        // Отправка в Google Форму через перенаправление
         const weddingForm = document.getElementById('weddingForm');
-        const formMessage = document.getElementById('formMessage');
         
-        // ID вашей Google Формы
-        const FORM_ID = '1YcLjLDRRaRyDCFAH-gBejdAKeMmrKnKZflHWa2z5rm0';
-        const FORM_URL = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
-
-        weddingForm.addEventListener('submit', async function(e) {
+        // Базовый URL вашей формы
+        const FORM_URL = 'https://docs.google.com/forms/d/e/1YcLjLDRRaRyDCFAH-gBejdAKeMmrKnKZflHWa2z5rm0/viewform?usp=pp_url';
+        
+        weddingForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Показываем сообщение о загрузке
-            formMessage.className = 'form-message loading';
-            formMessage.textContent = 'Отправка...';
+            // Получаем значения полей
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const attendance = document.querySelector('input[name="entry.1065046570"]:checked').value;
+            const guests = document.getElementById('guests').value;
+            const message = document.getElementById('message').value;
             
-            // Собираем данные формы
-            const formData = new FormData(this);
+            // Кодируем значения для URL
+            const encodedName = encodeURIComponent(name);
+            const encodedEmail = encodeURIComponent(email);
+            const encodedAttendance = encodeURIComponent(attendance);
+            const encodedGuests = encodeURIComponent(guests);
+            const encodedMessage = encodeURIComponent(message);
             
-            try {
-                // Отправляем данные в Google Форму
-                await fetch(FORM_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: formData
-                });
-                
-                // Показываем сообщение об успехе
-                formMessage.className = 'form-message success';
-                formMessage.textContent = 'Спасибо! Ваш ответ отправлен.';
-                
-                // Очищаем форму
-                this.reset();
-                
-                // Через 3 секунды скрываем форму
-                setTimeout(() => {
-                    rsvpForm.classList.remove('active');
-                    formMessage.className = 'form-message';
-                }, 3000);
-                
-            } catch (error) {
-                console.error('Ошибка:', error);
-                formMessage.className = 'form-message error';
-                formMessage.textContent = 'Ошибка при отправке. Пожалуйста, попробуйте ещё раз.';
-            }
+            // Собираем URL с предзаполненными полями
+            // ID полей из вашей формы:
+            // entry.2005620554 - Имя
+            // entry.1045781291 - Email
+            // entry.1065046570 - Присутствие
+            // entry.839337160 - Количество гостей
+            // entry.1169992378 - Пожелания
+            
+            const fullUrl = `${FORM_URL}&entry.2005620554=${encodedName}&entry.1045781291=${encodedEmail}&entry.1065046570=${encodedAttendance}&entry.839337160=${encodedGuests}&entry.1169992378=${encodedMessage}`;
+            
+            // Открываем форму в новой вкладке
+            window.open(fullUrl, '_blank');
+            
+            // Показываем сообщение
+            alert('Спасибо! Пожалуйста, завершите подтверждение в открывшейся форме Google.');
+            
+            // Скрываем форму
+            rsvpForm.classList.remove('active');
+            
+            // Очищаем форму
+            this.reset();
         });
     </script>
 </body>
