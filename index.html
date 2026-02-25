@@ -332,15 +332,15 @@
 </head>
 <body>
     <!-- Hero секция -->
-    <section class="hero">
-        <div class="hero-content fade-in">
-            <h1>Даниил <span class="hero-ampersand">&</span> Карина</h1>
-            <div class="hero-date">26 ИЮНЯ 2026 • 16:00</div>
-            <div style="margin-top: 30px;">
-                <i class="fas fa-chevron-down" style="font-size: 1.5rem; animation: bounce 2s infinite;"></i>
-            </div>
+<section class="hero">
+    <div class="hero-content fade-in">
+        <h1 style="font-size: clamp(2rem, 8vw, 3rem); white-space: nowrap;">Даниил & Карина</h1>
+        <div class="hero-date">25 ИЮЛЯ 2026 • 16:00</div>
+        <div style="margin-top: 30px;">
+            <i class="fas fa-chevron-down" style="font-size: 1.5rem; animation: bounce 2s infinite;"></i>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Основной контент -->
     <div class="container">
@@ -516,36 +516,37 @@
 
     <!-- JavaScript -->
     <script>
-        // Таймер обратного отсчета
-        function updateCountdown() {
-            // Установите дату вашей свадьбы: ГОД, МЕСЯЦ (0-11), ДЕНЬ, ЧАС, МИНУТА
-            const weddingDate = new Date(2026, 6, 25, 16, 0); // 25 июля 2026, 16:00
-            const now = new Date();
-            
-            const diff = weddingDate - now;
-            
-            if (diff <= 0) {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-                return;
-            }
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            document.getElementById('days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-        }
-        
-        // Обновляем таймер каждую секунду
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
+       // Таймер обратного отсчета
+function updateCountdown() {
+    // Установите дату вашей свадьбы: 26 июня 2026, 16:00
+    // В JavaScript: ГОД, МЕСЯЦ (0-11), ДЕНЬ, ЧАС, МИНУТА
+    const weddingDate = new Date(2026, 5, 26, 16, 0); // 5 = июнь (0-янв, 1-фев, 2-мар, 3-апр, 4-май, 5-июнь)
+    const now = new Date();
+    
+    const diff = weddingDate - now;
+    
+    if (diff <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        return;
+    }
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+}
+
+// Обновляем таймер каждую секунду
+updateCountdown();
+setInterval(updateCountdown, 1000);
         
         // Показ/скрытие формы RSVP
         const showFormBtn = document.getElementById('showFormBtn');
