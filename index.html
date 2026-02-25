@@ -515,50 +515,53 @@
         });
 
         // Отправка в Google Форму через перенаправление
-        const weddingForm = document.getElementById('weddingForm');
-        
-        // Базовый URL вашей формы
-        const FORM_URL = 'https://docs.google.com/forms/d/e/1YcLjLDRRaRyDCFAH-gBejdAKeMmrKnKZflHWa2z5rm0/viewform?usp=pp_url';
-        
-        weddingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Получаем значения полей
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const attendance = document.querySelector('input[name="entry.1065046570"]:checked').value;
-            const guests = document.getElementById('guests').value;
-            const message = document.getElementById('message').value;
-            
-            // Кодируем значения для URL
-            const encodedName = encodeURIComponent(name);
-            const encodedEmail = encodeURIComponent(email);
-            const encodedAttendance = encodeURIComponent(attendance);
-            const encodedGuests = encodeURIComponent(guests);
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Собираем URL с предзаполненными полями
-            // ID полей из вашей формы:
-            // entry.2005620554 - Имя
-            // entry.1045781291 - Email
-            // entry.1065046570 - Присутствие
-            // entry.839337160 - Количество гостей
-            // entry.1169992378 - Пожелания
-            
-            const fullUrl = `${FORM_URL}&entry.2005620554=${encodedName}&entry.1045781291=${encodedEmail}&entry.1065046570=${encodedAttendance}&entry.839337160=${encodedGuests}&entry.1169992378=${encodedMessage}`;
-            
-            // Открываем форму в новой вкладке
-            window.open(fullUrl, '_blank');
-            
-            // Показываем сообщение
-            alert('Спасибо! Пожалуйста, завершите подтверждение в открывшейся форме Google.');
-            
-            // Скрываем форму
-            rsvpForm.classList.remove('active');
-            
-            // Очищаем форму
-            this.reset();
-        });
-    </script>
-</body>
-</html>
+const weddingForm = document.getElementById('weddingForm');
+
+// ПРАВИЛЬНЫЙ URL для предзаполнения формы
+const FORM_URL = 'https://docs.google.com/forms/d/e/1YcLjLDRRaRyDCFAH-gBejdAKeMmrKnKZflHWa2z5rm0/viewform';
+
+weddingForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Проверяем, заполнено ли обязательное поле
+    const name = document.getElementById('name').value;
+    if (!name) {
+        alert('Пожалуйста, введите ваше имя и фамилию');
+        return;
+    }
+    
+    // Получаем значения полей
+    const email = document.getElementById('email').value;
+    const attendance = document.querySelector('input[name="entry.1065046570"]:checked').value;
+    const guests = document.getElementById('guests').value;
+    const message = document.getElementById('message').value;
+    
+    // Словарь для преобразования значений
+    const attendanceValue = attendance === 'Да, с радостью' ? 'Да, с радостью' : 'К сожалению, нет';
+    
+    // Создаем правильные параметры для Google Forms
+    // Формат: ?usp=pp_url&entry.1234567890=значение&entry.0987654321=значение
+    const params = new URLSearchParams({
+        'usp': 'pp_url',
+        'entry.2005620554': name,
+        'entry.1045781291': email,
+        'entry.1065046570': attendanceValue,
+        'entry.839337160': guests,
+        'entry.1169992378': message
+    });
+    
+    // Собираем полный URL
+    const fullUrl = `${FORM_URL}?${params.toString()}`;
+    
+    // Открываем форму в новой вкладке
+    window.open(fullUrl, '_blank');
+    
+    // Показываем сообщение
+    alert('Спасибо! Пожалуйста, завершите подтверждение в открывшейся форме Google (нужно нажать кнопку "Отправить").');
+    
+    // Скрываем форму
+    rsvpForm.classList.remove('active');
+    
+    // Очищаем форму
+    this.reset();
+});
