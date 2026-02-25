@@ -450,58 +450,52 @@
             }
         });
 
-       // ИСПРАВЛЕННАЯ отправка в Google Форму
-const weddingForm = document.getElementById('weddingForm');
-
-// ПРАВИЛЬНЫЙ URL формы (базовый)
-const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfkj-UEcBWCw_zTgg5KW7iAFsAIacFLLG14Iy7bdxJNgz4QKA/viewform';
-
+       // АЛЬТЕРНАТИВНЫЙ ВАРИАНТ (если первый не сработает)
 weddingForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Проверка обязательных полей
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     
-    if (!name) {
-        alert('Пожалуйста, введите ваше имя и фамилию');
+    if (!name || !email) {
+        alert('Пожалуйста, заполните имя и email');
         return;
     }
     
-    if (!email) {
-        alert('Пожалуйста, введите ваш email');
-        return;
-    }
-    
-    // Получаем значения полей
     const attendance = document.querySelector('input[name="entry.1065046570"]:checked').value;
     const guests = document.getElementById('guests').value;
     const message = document.getElementById('message').value;
     
-    // Кодируем значения для URL (заменяем пробелы и спецсимволы)
-    const encodedName = encodeURIComponent(name);
-    const encodedEmail = encodeURIComponent(email);
-    const encodedAttendance = encodeURIComponent(attendance);
-    const encodedGuests = encodeURIComponent(guests);
-    const encodedMessage = encodeURIComponent(message);
+    // Создаем HTML-форму для отправки POST-запросом
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSfkj-UEcBWCw_zTgg5KW7iAFsAIacFLLG14Iy7bdxJNgz4QKA/formResponse';
+    form.target = '_blank';
     
-    // Формируем URL с параметрами в правильном формате для Google Forms
-    // Важно: параметры должны идти в том же порядке, что и в форме
-    const fullUrl = FORM_URL + 
-        '?usp=pp_url' +
-        '&entry.2005620554=' + encodedName +
-        '&entry.1045781291=' + encodedEmail +
-        '&entry.1065046570=' + encodedAttendance +
-        '&entry.839337160=' + encodedGuests +
-        '&entry.1169992378=' + encodedMessage;
+    // Добавляем поля
+    const fields = {
+        'entry.2005620554': name,
+        'entry.1045781291': email,
+        'entry.1065046570': attendance,
+        'entry.839337160': guests,
+        'entry.1169992378': message
+    };
     
-    // Открываем в новой вкладке
-    window.open(fullUrl, '_blank');
+    for (const [name, value] of Object.entries(fields)) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+    }
     
-    // Показываем сообщение
-    alert('✓ Спасибо! Данные перенесены.\n\nПожалуйста, в открывшейся форме Google нажмите кнопку "Отправить" внизу страницы.');
+    // Добавляем форму в документ и отправляем
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
     
-    // Скрываем форму и очищаем
+    alert('✓ Спасибо! Данные отправлены в Google Форму.');
+    
     rsvpForm.classList.remove('active');
     this.reset();
 });
