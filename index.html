@@ -450,68 +450,61 @@
             }
         });
 
-        // ИСПРАВЛЕННАЯ отправка в Google Форму
-        const weddingForm = document.getElementById('weddingForm');
-        
-        // ПРАВИЛЬНЫЙ URL формы (без лишних параметров)
-        const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfkj-UEcBWCw_zTgg5KW7iAFsAIacFLLG14Iy7bdxJNgz4QKA/viewform';
-        
-        weddingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Проверка обязательных полей
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            
-            if (!name) {
-                alert('Пожалуйста, введите ваше имя и фамилию');
-                return;
-            }
-            
-            if (!email) {
-                alert('Пожалуйста, введите ваш email');
-                return;
-            }
-            
-            // Получаем значения полей
-            const attendance = document.querySelector('input[name="entry.1065046570"]:checked').value;
-            const guests = document.getElementById('guests').value;
-            const message = document.getElementById('message').value;
-            
-            // Создаем объект с параметрами для Google Forms
-            // ПРАВИЛЬНЫЕ ID ПОЛЕЙ из вашей формы:
-            // - Имя: entry.2005620554
-            // - Email: entry.1045781291
-            // - Присутствие: entry.1065046570
-            // - Количество гостей: entry.839337160
-            // - Пожелания: entry.1169992378
-            const params = {
-                'entry.2005620554': name,
-                'entry.1045781291': email,
-                'entry.1065046570': attendance,
-                'entry.839337160': guests,
-                'entry.1169992378': message
-            };
-            
-            // Преобразуем в URL-строку
-            const urlParams = new URLSearchParams(params);
-            
-            // Добавляем служебный параметр viewform
-            urlParams.append('usp', 'pp_url');
-            
-            // Формируем полный URL
-            const fullUrl = `${FORM_URL}?${urlParams.toString()}`;
-            
-            // Открываем в новой вкладке
-            window.open(fullUrl, '_blank');
-            
-            // Показываем сообщение
-            alert('✓ Спасибо! Данные перенесены.\n\nПожалуйста, в открывшейся форме Google нажмите кнопку "Отправить" внизу страницы, чтобы мы точно получили ваш ответ.');
-            
-            // Скрываем форму и очищаем
-            rsvpForm.classList.remove('active');
-            this.reset();
-        });
+       // ИСПРАВЛЕННАЯ отправка в Google Форму
+const weddingForm = document.getElementById('weddingForm');
+
+// ПРАВИЛЬНЫЙ URL формы (базовый)
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfkj-UEcBWCw_zTgg5KW7iAFsAIacFLLG14Iy7bdxJNgz4QKA/viewform';
+
+weddingForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Проверка обязательных полей
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    
+    if (!name) {
+        alert('Пожалуйста, введите ваше имя и фамилию');
+        return;
+    }
+    
+    if (!email) {
+        alert('Пожалуйста, введите ваш email');
+        return;
+    }
+    
+    // Получаем значения полей
+    const attendance = document.querySelector('input[name="entry.1065046570"]:checked').value;
+    const guests = document.getElementById('guests').value;
+    const message = document.getElementById('message').value;
+    
+    // Кодируем значения для URL (заменяем пробелы и спецсимволы)
+    const encodedName = encodeURIComponent(name);
+    const encodedEmail = encodeURIComponent(email);
+    const encodedAttendance = encodeURIComponent(attendance);
+    const encodedGuests = encodeURIComponent(guests);
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Формируем URL с параметрами в правильном формате для Google Forms
+    // Важно: параметры должны идти в том же порядке, что и в форме
+    const fullUrl = FORM_URL + 
+        '?usp=pp_url' +
+        '&entry.2005620554=' + encodedName +
+        '&entry.1045781291=' + encodedEmail +
+        '&entry.1065046570=' + encodedAttendance +
+        '&entry.839337160=' + encodedGuests +
+        '&entry.1169992378=' + encodedMessage;
+    
+    // Открываем в новой вкладке
+    window.open(fullUrl, '_blank');
+    
+    // Показываем сообщение
+    alert('✓ Спасибо! Данные перенесены.\n\nПожалуйста, в открывшейся форме Google нажмите кнопку "Отправить" внизу страницы.');
+    
+    // Скрываем форму и очищаем
+    rsvpForm.classList.remove('active');
+    this.reset();
+});
     </script>
 </body>
 </html>
