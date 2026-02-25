@@ -568,7 +568,7 @@ setInterval(updateCountdown, 1000);
         const weddingForm = document.getElementById('weddingForm');
         
         weddingForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    e.preventDefault();
             
             // Собираем данные формы
             const formData = new FormData(this);
@@ -577,8 +577,15 @@ setInterval(updateCountdown, 1000);
                 data[key] = value;
             });
             
-            // Здесь можно отправить данные в Google Sheets
-            // Подробная инструкция по настройке сбора ответов в Google Таблицу есть в шаге 3
+             // Открываем Google Форму с предзаполненными данными
+    const name = document.getElementById('name').value;
+    const attendance = document.querySelector('input[name="attendance"]:checked').value;
+    const guests = document.getElementById('guests').value;
+    
+    // Ссылка на вашу Google Форму (замените YOUR_FORM_URL)
+    const formUrl = `https://vk.com/away.php?to=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfkj-UEcBWCw_zTgg5KW7iAFsAIacFLLG14Iy7bdxJNgz4QKA%2Fviewform%3Fusp%3Dpublish-editor&utf=${encodeURIComponent(name)}&entry.ATTENDANCE_ID=${attendance}`;
+    
+    window.open(formUrl, '_blank');
             
             // Показываем сообщение об успехе
             alert('Спасибо за ответ! Мы сохранили ваше подтверждение.');
